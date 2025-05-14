@@ -49,19 +49,19 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := models.GenerateToken(input.Username, input.Password)
+	authToken, err := models.GenerateToken(input.Username, input.Password)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"token": token,
+		"token": authToken,
 	})
 }
 
 func CurrentUser(c *gin.Context) {
-   // トークンからユーザーIDを抽出する
+	// トークンからユーザーIDを抽出する
 	userId, err := token.ExtractTokenId(c)
 
 	if err != nil {
@@ -70,7 +70,7 @@ func CurrentUser(c *gin.Context) {
 	}
 
 	var user models.User
-   // ユーザーIDに基づいてユーザー情報をデータベースから取得する
+	// ユーザーIDに基づいてユーザー情報をデータベースから取得する
 	err = models.DB.First(&user, userId).Error
 
 	if err != nil {
