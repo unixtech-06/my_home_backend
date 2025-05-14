@@ -60,11 +60,11 @@ func GenerateToken(username string, password string) (string, error) {
 		return "", err
 	}
 
-	token, err := token.GenerateToken(user.ID)
+	authToken, err := token.GenerateToken(user.ID)
 
 	if err != nil {
 		return "", err
 	}
 
-	return token, nil
+	return authToken, nil
 }

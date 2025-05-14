@@ -13,7 +13,12 @@ func JwtAuthMiddleware() gin.HandlerFunc {
 		err := token.Valid(c)
 
 		if err != nil {
-			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+			// より詳細なエラーメッセージを返す
+			errorMessage := "認証に失敗しました"
+			if err.Error() != "" {
+				errorMessage = err.Error()
+			}
+			c.JSON(http.StatusUnauthorized, gin.H{"error": errorMessage})
 			c.Abort()
 			return
 		}
